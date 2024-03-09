@@ -143,6 +143,7 @@ impl Plugin for Matchers {
     fn load(&self, event_receiver: EventReceiver, bot_getter: BotGetter) -> JoinHandle<()> {
         let mut matchers = self.clone();
         matchers.bot_getter = Some(bot_getter.clone());
+        init_matchers(&matchers);
         tokio::spawn(matchers.event_recv(event_receiver))
     }
 
@@ -174,6 +175,29 @@ where
     for matcherh in matcherb.values() {
         for name in matcherh.keys() {
             event!(Level::INFO, "Matcher {} is Loaded", name.blue());
+        }
+    }
+}
+
+fn init_matchers(matchers: &Matchers) {
+    init_matcherb(matchers, &matchers.message);
+    init_matcherb(matchers, &matchers.notice);
+    init_matcherb(matchers, &matchers.request);
+    init_matcherb(matchers, &matchers.meta);
+}
+
+fn init_matcherb<E>(matchers: &Matchers, matcherb: &MatchersBTreeMap<E>)
+where
+    E: Clone,
+{
+    if matcherb.is_empty() {
+        return;
+    }
+    for matcherh in matcherb.values() {
+        for matcher in matcherh.values() {
+            if matcher.init(&matchers.get_plugin_data_path()).is_err() {
+                event!(Level::ERROR, "Matcher {} init error.", matcher.name.red());
+            }
         }
     }
 }

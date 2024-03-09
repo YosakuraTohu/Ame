@@ -3,6 +3,8 @@ use crate::event::{MessageEvent, SelfId};
 use crate::utils::timestamp;
 use crate::Action;
 use async_trait::async_trait;
+use std::fs::create_dir_all;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tracing::{event, Level};
@@ -54,6 +56,7 @@ where
     pub temp: bool,
     /// 过期时间戳
     pub timeout: Option<i64>,
+    base_data_path: Option<String>,
 
     #[doc(hidden)]
     event: Option<E>,
@@ -136,7 +139,26 @@ where
             timeout: None,
 
             event: None,
+            base_data_path: None,
         }
+    }
+
+    fn init(&self, base_path: &Path) -> std::io::Result<()> {
+        let path = Path::new(base_path).join(&self.name);
+        create_dir_all(path)
+    }
+
+    pub fn create_dir(&self, path: &Path) -> std::io::Result<()> {
+        let path = self.get_plugin_data_real_path(path);
+        create_dir_all(path)
+    }
+
+    pub fn get_plugin_data_real_path(&self, path: &Path) -> PathBuf {
+        self.get_plugin_data_path().join(path)
+    }
+
+    pub fn get_plugin_data_path(&self) -> PathBuf {
+        Path::new(self.base_data_path.as_ref().unwrap()).join(&self.name)
     }
 
     #[doc(hidden)]

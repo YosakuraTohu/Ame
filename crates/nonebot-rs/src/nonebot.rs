@@ -63,6 +63,14 @@ impl Nonebot {
             let task = plugin.load(self.event_sender.subscribe(), self.bot_getter.clone());
             let plugin_info = plugin.plugin_info();
             tasks.insert(plugin_info.id, Box::pin(task));
+            if plugin.init().is_err() {
+                event!(
+                    Level::ERROR,
+                    "Plugin {} {} init error.",
+                    plugin_info.name.red(),
+                    plugin_info.id.to_string().blue()
+                );
+            }
             event!(
                 Level::INFO,
                 "Plugin {} {} is loaded.",
