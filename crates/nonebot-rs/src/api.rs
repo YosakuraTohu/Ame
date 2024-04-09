@@ -196,12 +196,6 @@ impl Api {
         CleanCache
     );
 
-    // pub fn get_group_list() -> Api {
-    //     Api::GetGroupList {
-    //         params: None,
-    //         echo: format!("{},{}", "GetGroupList", crate::utils::timestamp()),
-    //     }
-    // }
     no_params_builder!(
         (get_login_info, GetLoginInfo),
         (get_friend_list, GetFriendList),
@@ -214,12 +208,6 @@ impl Api {
         (clean_cache, CleanCache)
     );
 
-    // pub fn send_private_msg(params: SendPrivateMsg) -> Api {
-    //     Api::SendPrivateMsg {
-    //         params: params,
-    //         echo: format!("{}-{}", "SendGroupMsg", crate::utils::timestamp()),
-    //     }
-    // }
     params_builder!(
         (send_private_msg, SendPrivateMsg),
         (send_group_msg, SendGroupMsg),

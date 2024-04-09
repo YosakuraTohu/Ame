@@ -102,24 +102,6 @@ impl<E> Matcher<E>
 where
     E: Clone,
 {
-    /// 生成默认模板 Matcher
-    ///
-    /// 默认模板：
-    /// ``` rust
-    /// Matcher {
-    ///     name: name,
-    ///     bot: None,
-    ///     priority: 1,
-    ///     pre_matchers: vec![],
-    ///     rules: vec![],
-    ///     block: true,
-    ///     handler: Arc::new(RwLock::new(handler)),
-    ///     disable: false,
-    ///     temp: false,
-    ///     timeout: None,
-    ///     event: None,
-    /// }
-    /// ```
     pub fn new<H>(name: &str, handler: H) -> Matcher<E>
     where
         H: Handler<E> + Sync + Send + 'static,

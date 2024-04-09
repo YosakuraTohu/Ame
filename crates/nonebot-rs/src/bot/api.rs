@@ -56,12 +56,6 @@ macro_rules! resp_api {
 }
 
 impl super::Bot {
-    // pub async fn delete_msg(&self, message_id: i32) {
-    //     self.call_api(Api::delete_msg(api::DeleteMsg {
-    //         message_id: message_id,
-    //     }))
-    //     .await;
-    // }
     no_resp_api!(delete_msg, DeleteMsg, message_id: i32);
     no_resp_api!(send_like, SendLike, user_id: String, times: u8);
     no_resp_api!(
@@ -149,19 +143,6 @@ impl super::Bot {
     );
     no_resp_api!(set_restart, SetRestart, delay: i64);
 
-    // 获取消息
-    // pub async fn get_msg(&self, message_id: i32) -> Option<api_resp::Message> {
-    //     let resp = self
-    //         .call_api_resp(Api::get_msg(api::GetMsg {
-    //             message_id: message_id,
-    //         }))
-    //         .await;
-    //     if let RespData::Message(m) = resp.unwrap().data {
-    //         Some(m)
-    //     } else {
-    //         None
-    //     }
-    // }
     resp_api!(
         send_msg,
         SendMsg,

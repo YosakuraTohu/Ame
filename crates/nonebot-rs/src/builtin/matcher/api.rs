@@ -114,18 +114,6 @@ where
         }
     }
 
-    // pub async fn delete_msg(&self, message_id: i32) {
-    //     if let Some(bot) = &self.bot {
-    //         bot.delete_msg(message_id).await
-    //     } else {
-    //         event!(
-    //             Level::ERROR,
-    //             "Calling api {} {}",
-    //             "delete_msg".blue(),
-    //             "with unbuilt matcher!".red()
-    //         );
-    //     }
-    // }
     no_resp_api!(delete_msg, message_id: i32);
     no_resp_api!(send_like, user_id: String, times: u8);
     no_resp_api!(
@@ -238,31 +226,4 @@ where
     resp_api!(can_send_image, api_resp::SendCheck);
     resp_api!(get_status, crate::event::Status);
     resp_api!(get_version_info, api_resp::VersionInfo);
-
-    // pub async fn get_friend_list(&self) -> Option<Vec<crate::api_resp::FriendListItem>> {
-    //     if let Some(bot) = &self.bot {
-    //         bot.get_friend_list().await
-    //     } else {
-    //         event!(
-    //             Level::ERROR,
-    //             "Calling api {} {}",
-    //             "get_friend_list".blue(),
-    //             "with unbuilt matcher!".red()
-    //         );
-    //         None
-    //     }
-    // }
-
-    // pub async fn get_group_list(&self) -> Option<Vec<crate::api_resp::GroupListItem>> {
-    //     if let Some(bot) = &self.bot {
-    //         bot.get_group_list().await
-    //     } else {
-    //         event!(
-    //             Level::ERROR,
-    //             "{}",
-    //             "Calling api with unbuilt matcher!".red()
-    //         );
-    //         None
-    //     }
-    // }
 }

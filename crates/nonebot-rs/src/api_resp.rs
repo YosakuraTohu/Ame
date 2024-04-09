@@ -10,15 +10,6 @@ pub struct ApiResp {
     pub echo: String,
 }
 
-// impl ApiResp {
-//     pub fn get_date<D>(&self) -> Option<D> {
-//         match self.data {
-//             RespData::MessageId(d) => Some(d),
-//             _ => None,
-//         }
-//     }
-// }
-
 /// Onebot Api 响应 data 字段
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(untagged)]
