@@ -97,20 +97,18 @@ pub struct MoliMessageData {
     pub remark: Option<String>,
 }
 
-#[test]
-fn test_without_apikey() {
-    tokio_test::block_on(async {
-        // static MOLI: Moli = Moli::new("ulpxdy2moi9ya4fm", "92kqb4ye");
-        static MOLI: Moli = Moli::new("", "");
-        let msg = MoliReqestParameter::new(
-            "呜呜……".to_string(),
-            1,
-            "2956419803".to_string(),
-            "祈洱".to_string(),
-            "".to_string(),
-            "".to_string(),
-        );
-        let res = MOLI.get_response(msg).await;
-        println!("{:#?}", res);
-    });
+#[tokio::test]
+async fn test_without_apikey() {
+    // static MOLI: Moli = Moli::new("ulpxdy2moi9ya4fm", "92kqb4ye");
+    static MOLI: Moli = Moli::new("", "");
+    let msg = MoliReqestParameter::new(
+        "呜呜……".to_string(),
+        1,
+        "2956419803".to_string(),
+        "祈洱".to_string(),
+        "".to_string(),
+        "".to_string(),
+    );
+    let res = MOLI.get_response(msg).await;
+    println!("{:#?}", res);
 }

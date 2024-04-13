@@ -106,12 +106,10 @@ struct LoliconData {
     urls: HashMap<String, String>,
 }
 
-#[test]
-fn test_get_api() {
-    tokio_test::block_on(async {
-        let api = Lolicon::get_api().await.unwrap();
-        let msg = Lolicon::make_message().await.unwrap();
-        println!("{:#?}", api);
-        println!("{:#?}", msg);
-    });
+#[tokio::test]
+async fn test_get_api() {
+    let api = Lolicon::get_api().await.unwrap();
+    let msg = Lolicon::make_message().await.unwrap();
+    println!("{:#?}", api);
+    println!("{:#?}", msg);
 }

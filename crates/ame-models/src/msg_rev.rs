@@ -57,9 +57,16 @@ pub struct MsgBuilder {
     pub raw_msg: String,
 }
 
+#[derive(Debug, Clone)]
+pub struct TIU {
+    pub time: DateTime<Utc>,
+    pub mid: i32,
+    pub urls: Vec<String>,
+}
+
 pub async fn fetch_latest_msg_rev(
     pool: &sqlx::PgPool,
-    len: i64,
+    len: i32,
 ) -> Result<Vec<MsgRev>, sqlx::error::Error> {
     let rows = sqlx::query_as_unchecked!(MsgRev, "select * from msg_rev limit $1", len)
         .fetch_all(pool)
@@ -86,4 +93,33 @@ pub async fn insert_msg_rev(
     .fetch_all(pool)
     .await?;
     Ok(())
+}
+
+pub async fn fetch_latest_tiu(
+    pool: &sqlx::PgPool,
+    len: i32,
+    offset: i32,
+) -> Result<Vec<TIU>, sqlx::error::Error> {
+    let res = sqlx::query_as_unchecked!(
+        TIU,
+        r#"
+        select
+            time, mid, array_agg(m.data) urls
+        from
+            msg_rev, unnest(msg) as m
+        where
+            m.type = 'image'
+        group by
+            time, mid
+        order by
+            time asc
+        limit $1
+        offset $2
+        "#,
+        len,
+        offset
+    )
+    .fetch_all(pool)
+    .await?;
+    Ok(res)
 }
